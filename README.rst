@@ -60,7 +60,7 @@ The legislators namespace is comprised of several functions:
     * legislators.getList    - get zero or more legislators
     * legislators.search     - fuzzy search for legislators by name
     * legislators.allForZip  - get all legislators representing a zipcode
-    
+
 
 get and getList
 ---------------
@@ -81,6 +81,7 @@ The available parameters are:
     * district
     * in_office
     * gender
+    * birthdate
     * phone
     * fax
     * website
@@ -93,9 +94,10 @@ The available parameters are:
     * govtrack_id
     * crp_id
     * eventful_id
-    * sunlight_old_id
     * congresspedia_url
     * twitter_id
+    * official_rss
+    * youtube_url
     
     
 To get the representative that represents NC-4:
@@ -111,7 +113,6 @@ possible to do a more complex query, for instance
     ...     print leg
     Rep. Pete King (R-NY)
     Rep. Christopher Lee (R-NY)
-    Rep. John McHugh (R-NY)
 
 
 **It is preferred that you do not call getList without parameters as it will
@@ -146,10 +147,11 @@ An example usage of search is as follows:
     
 It is also possible to get multiple results:
     
-    >>> for r in sunlight.legislators.search('Kennedy'):
+    >>> for r in sunlight.legislators.search('Frank'):
     ...     print r
-    1.0 Sen. Ted Kennedy (D-MA)
-    1.0 Rep. Patrick Kennedy (D-RI)
+    1.0 Rep. Barney Frank (D-MA)
+    0.972222222222 Rep. Trent Franks (R-AZ)
+    0.952380952381 Sen. Al Franken (D-MN)
 
 
 allForZip
@@ -333,114 +335,12 @@ Showing all of a legislators committees and subcommittees:
        Subcommittee on Financial Institutions
        Subcommittee on Housing, Transportation, and Community Development
 
------------------
-lobbyists methods
------------------
+Deprecated Methods
+==================
 
-The lobbyists namespace contains:
-    * lobbyists.getFiling
-    * lobbyists.getFilingList
-    * lobbyists.search
-    
+As of the 0.5 release of this library all lobbyists and wordlist namespace
+methods are deprecated pending removal in a future version.  These methods are
+no longer supported by the Sunlight Labs API.
 
-getFiling
----------
-
-To get all details on a single filing by id:
-
-    >>> filing = sunlight.lobbyists.getFiling('29D4D19E-CB7D-46D2-99F0-27FF15901A4C')
-
-    >>> print filing
-    29D4D19E-CB7D-46D2-99F0-27FF15901A4C - Sunlight Foundation for SUNLIGHT FOUNDATION
-    
-    >>> for lobbyist in filing.lobbyists:
-    ...     print lobbyist
-    MICHAEL KLEIN
-    ZEPHYR TEACHOUT
-    ELLEN MILLER
-    NISHA THOMPSON
-    
-    >>> for issue in filing.issues:
-    ...     print issue
-    GOVERNMENT ISSUES (unspecified)
-
-
-getFilingList
--------------
-
-To get all filings of a particular client or registrant:
-
-    >>> for filing in sunlight.lobbyists.getFilingList(client_name='SUNLIGHT FOUNDATION'):
-    ...     print filing
-    79DAF5B3-3444-4966-A5F1-844A647EB200 - Bernstein Strategy Group for SUNLIGHT FOUNDATION
-    04693B31-E97E-4A42-A157-12B4639A4319 - Sunlight Foundation for SUNLIGHT FOUNDATION
-    29D4D19E-CB7D-46D2-99F0-27FF15901A4C - Sunlight Foundation for SUNLIGHT FOUNDATION
-    03404F3C-3084-4B2E-949F-0788E86E547F - Bernstein Strategy Group for SUNLIGHT FOUNDATION
-    713046BC-0EA7-4547-843F-FFD4716BD0EB - Bernstein Strategy Group for SUNLIGHT FOUNDATION
-    17E43624-A38F-4E42-9CA3-0BC8737A169A - Sunlight Foundation for SUNLIGHT FOUNDATION
-    9BB3FF43-34FF-454C-B796-45DB5CA10EFC - Bernstein Strategy Group for SUNLIGHT FOUNDATION
-    4209EEC2-E946-45B7-8B9C-87DF85BD15C2 - Sunlight Foundation for SUNLIGHT FOUNDATION
-    C4438A23-7036-4FF0-860B-5EB2FE842AA7 - Bernstein Strategy Group for SUNLIGHT FOUNDATION
-    1BB3B0FA-220C-464E-A7D1-F609010ABC0C - Sunlight Foundation for SUNLIGHT FOUNDATION
-
-search
-------
-
-To use a fuzzy name-matching search to find lobbyists filings:
-
-    >>> for r in sunlight.lobbyists.search('Nosha Thrompson', year=2008):
-    ...     print r
-    0.945396825397 NISHA THOMPSON (Sunlight Foundation)
-
-
-----------------
-wordlist methods
-----------------
-
-The wordlist namespace is used for maintaining and using lists of words primarily to be used for stopword filtering.
-
-It contains the methods:
-* get
-* update
-* filter_stopwords
-
-get
----
-
-wordlist.get(list_name) gets a stopword list by name.
-
-To get a python list of stopwords:
-
-    >>> sunlight.wordlist.get('test_articles')
-    ['a', 'an', 'the']
-
-
-update
-------
-
-wordlist.update(list_name, words) creates or updates a stopword list.
-
-An example would look something like:
-
-    >>> try:
-    ...     sunlight.wordlist.update('test_articles', ['a', 'an', 'the'])
-    ... except SunlightApiError, e:
-    ...     print e
-    Attempt to modify wordlist that belongs to another user
-
-**Note that you can only update a wordlist that you created, attempting to
-modify someone elses wordlist will result in a 403 - Access Denied error**
-
-
-filter_stopwords
-----------------
-
-Once a wordlist exists the primary use is to remove all stopwords from a block of text using the filter_stopwords method.
-
-An example of using ``filter_stopwords`` for just that:
-
-    >>> sunlight.wordlist.filter_stopwords('test_articles', 'The boy named Frank ate a banana and an apple')
-    'boy named frank ate banana and apple'
-
-You'll notice that punctuation has been stripped and capitalized words are no longer capitalized.  This is a side effect of the filtering process that comes in handy when creating word frequency visualizations (the intended purpose of the stopword API)
-
+See http://sunlightlabs.com/blog/2009/sunlight-labs-api-one-year-later/ for
+further details.

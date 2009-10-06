@@ -5,11 +5,12 @@
 """
 
 __author__ = "James Turk (jturk@sunlightfoundation.com)"
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __copyright__ = "Copyright (c) 2009 Sunlight Labs"
 __license__ = "BSD"
 
 import urllib, urllib2
+import warnings
 try:
     import json
 except ImportError:
@@ -163,16 +164,19 @@ class sunlight(object):
     class lobbyists(object):
         @staticmethod
         def getFiling(id):
+            warnings.warn('lobbyist methods deprecated as of September 2009', DeprecationWarning)
             result = sunlight._apicall('lobbyists.getFiling', {'id':id})
             return Filing(result['filing'])
 
         @staticmethod
         def getFilingList(**kwargs):
+            warnings.warn('lobbyist methods deprecated as of September 2009', DeprecationWarning)
             results = sunlight._apicall('lobbyists.getFilingList', kwargs)
             return [Filing(f['filing']) for f in results['filings']]
 
         @staticmethod
         def search(name, year=None, threshold=0.9):
+            warnings.warn('lobbyist methods deprecated as of September 2009', DeprecationWarning)
             if year == None:
                 import time
                 year = time.strftime('%Y')
@@ -184,6 +188,7 @@ class sunlight(object):
 
         @staticmethod
         def _apicall(call, body=None):
+            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
             base_url = 'http://services.sunlightlabs.com/api/wordlist'
             url = '%s/%s/?apikey=%s' % (base_url, call, sunlight.apikey)
             try:
@@ -197,14 +202,17 @@ class sunlight(object):
 
         @staticmethod
         def get(list_name):
+            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
             words = sunlight.wordlist._apicall(list_name)
             return words.split('~')
 
         @staticmethod
         def update(list_name, words):
+            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
             sunlight.wordlist._apicall(list_name, {'words': '\n'.join(words)})
 
         @staticmethod
         def filter_stopwords(list_name, text):
+            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
             call = '%s/filter_stopwords' % list_name
             return sunlight.wordlist._apicall(call, {'text': text})
