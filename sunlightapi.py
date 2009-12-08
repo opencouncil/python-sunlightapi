@@ -9,8 +9,18 @@ __version__ = "0.5.0"
 __copyright__ = "Copyright (c) 2009 Sunlight Labs"
 __license__ = "BSD"
 
-import urllib, urllib2
+import sys
 import warnings
+
+if sys.version_info[0] == 3:
+    from urllib.parse import urlencode
+    from urllib.request import urlopen
+    from urllib.error import HTTPError
+else:
+    from urllib import urlencode
+    from urllib2 import urlopen
+    from urllib2 import HTTPError
+
 try:
     import json
 except ImportError:
@@ -93,11 +103,11 @@ class sunlight(object):
             raise SunlightApiError('Missing sunlight apikey')
 
         url = 'http://services.sunlightlabs.com/api/%s.json?apikey=%s&%s' % \
-              (func, sunlight.apikey, urllib.urlencode(params))
+              (func, sunlight.apikey, urlencode(params))
         try:
-            response = urllib2.urlopen(url).read()
+            response = urlopen(url).read().decode()
             return json.loads(response)['response']
-        except urllib2.HTTPError, e:
+        except HTTPError, e:
             raise SunlightApiError(e.read())
         except (ValueError, KeyError), e:
             raise SunlightApiError('Invalid Response')
@@ -193,11 +203,11 @@ class sunlight(object):
             url = '%s/%s/?apikey=%s' % (base_url, call, sunlight.apikey)
             try:
                 if body:
-                    data = urllib.urlencode(body)
+                    data = urlencode(body)
                 else:
                     data = None
-                return urllib2.urlopen(url, data).read()
-            except urllib2.HTTPError, e:
+                return urlopen(url, data).read()
+            except HTTPError, e:
                 raise SunlightApiError(e.read())
 
         @staticmethod
