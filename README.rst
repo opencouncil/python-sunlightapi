@@ -102,7 +102,7 @@ The available parameters are:
     
 To get the representative that represents NC-4:
 
-    >>> print sunlight.legislators.get(state='NC', district='4')
+    >>> print(sunlight.legislators.get(state='NC', district='4'))
     Rep. David Price (D-NC)
     
 legislators.getList works much the same way, but returns a list.  It is
@@ -110,7 +110,7 @@ possible to do a more complex query, for instance
 "all legislators from New York that are Republicans":
 
     >>> for leg in sunlight.legislators.getList(state='NY', party='R'):
-    ...     print leg
+    ...     print(leg)
     Rep. Pete King (R-NY)
     Rep. Christopher Lee (R-NY)
 
@@ -141,14 +141,14 @@ Search takes two optional parameters
 An example usage of search is as follows:
 
     >>> for r in sunlight.legislators.search('Diane Finestine'):
-    ...     print r
+    ...     print(r)
     0.92125 Sen. Dianne Feinstein (D-CA)
 
     
 It is also possible to get multiple results:
     
     >>> for r in sunlight.legislators.search('Frank'):
-    ...     print r
+    ...     print(r)
     1.0 Rep. Barney Frank (D-MA)
     0.972222222222 Rep. Trent Franks (R-AZ)
     0.952380952381 Sen. Al Franken (D-MN)
@@ -164,7 +164,7 @@ This typically means two senators and one (or more) representatives.
 To get all legislators that represent the 27511 zipcode:
     
     >>> for legislator in sunlight.legislators.allForZip(27511):
-    ...     print legislator
+    ...     print(legislator)
     Rep. David Price (D-NC)
     Sen. Kay Hagan (D-NC)
     Sen. Richard Burr (R-NC)
@@ -189,7 +189,7 @@ zipcode.
 
 To get all districts that overlap 14623:
     >>> for district in sunlight.districts.getDistrictsFromZip(14623):
-    ...     print district
+    ...     print(district)
     NY-29
     NY-28
 
@@ -210,7 +210,7 @@ districts.getDistrictFromLatLong finds the district that a given lat-long
 coordinate pair falls within.
 
 To find out what district 61.13 N, 149.54 W falls within:
-    >>> print sunlight.districts.getDistrictFromLatLong(61.13, 149.54)
+    >>> print(sunlight.districts.getDistrictFromLatLong(61.13, 149.54))
     AK-0
 
 This point is in fact in Anchorage, Alaska, so this is correct.
@@ -232,7 +232,7 @@ committee.getList gets all committees for a given chamber (House, Senate, or Joi
 
 To see all joint committees for the current congress:
     >>> for c in sunlight.committees.getList('Joint'):
-    ...     print c
+    ...     print(c)
     Joint Economic Committee
     Joint Committee on Printing
     Joint Committee on Taxation
@@ -246,10 +246,10 @@ committee.get gets full details for a given committee, including membership and 
 Example of getting details for a committee:
 
     >>> com = sunlight.committees.get('HSAG')
-    >>> print com.name
+    >>> print(com.name)
     House Committee on Agriculture
     >>> for sc in com.subcommittees:
-    ...     print sc
+    ...     print(sc)
     Subcommittee on  Conservation, Credit, Energy, and Research
     Subcommittee on Department Operations, Oversight, Nutrition and Forestry
     Subcommittee on General Farm Commodities and Risk Management
@@ -257,7 +257,7 @@ Example of getting details for a committee:
     Subcommittee on Livestock, Dairy, and Poultry 
     Subcommittee on Rural Development, Biotechnology, Specialty Crops, and Foreign Agriculture
     >>> for m in com.members:
-    ...     print m
+    ...     print(m)
     Rep. Joe Baca (D-CA)
     Rep. John Boccieri (D-OH)
     Rep. Leonard Boswell (D-IA)
@@ -313,9 +313,9 @@ All for legislator shows all of a legislator's committee and subcommittee member
 
 Showing all of a legislators committees and subcommittees:
     >>> for com in sunlight.committees.allForLegislator('S000148'):
-    ...    print com
+    ...    print(com)
     ...    for sc in com.subcommittees:
-    ...        print '  ',sc
+    ...        print('   '+str(sc))
     Senate Committee on Rules and Administration
     Senate Committee on Finance
        Subcommittee on International Trade and Global Competitiveness
