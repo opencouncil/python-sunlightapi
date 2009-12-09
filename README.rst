@@ -4,11 +4,11 @@ python-sunlightapi
 
 Python library for interacting with the Sunlight Labs API.
 
-The Sunlight Labs API provides basic legislator information, district lookups,
-and experimental information on lobbyists.
+The Sunlight Labs API provides legislator information and district lookups.
+
 (http://services.sunlightlabs.com/api/)
 
-python-sunlightapi is a project of Sunlight Labs (c) 2008.  
+python-sunlightapi is a project of Sunlight Labs (c) 2009.
 Written by James Turk <jturk@sunlightfoundation.com>.
 
 All code is under a BSD-style license, see LICENSE for details.
@@ -17,6 +17,8 @@ Homepage: http://pypi.python.org/pypi/python-sunlightapi/
 
 Source: http://github.com/sunlightlabs/python-sunlightapi/
 
+The package can be installed via pip, easy_install or by downloading the
+source and running ``python setup.py install``.
 
 Requirements
 ============
@@ -24,15 +26,6 @@ Requirements
 python >= 2.4
 
 simplejson >= 1.8 (not required with python 2.6, will use built in json module)
-
-
-Installation
-============
-To install run
-
-    ``python setup.py install``
-
-which will install the bindings into python's site-packages directory.
 
 Usage
 =====
@@ -56,10 +49,11 @@ legislators methods
 -------------------
 
 The legislators namespace is comprised of several functions:
-    * legislators.get        - get a single legislator
-    * legislators.getList    - get zero or more legislators
-    * legislators.search     - fuzzy search for legislators by name
-    * legislators.allForZip  - get all legislators representing a zipcode
+    * legislators.get           - get a single legislator
+    * legislators.getList       - get zero or more legislators
+    * legislators.search        - fuzzy search for legislators by name
+    * legislators.allForZip     - get all legislators representing a zipcode
+    * legislators.allForLatLong - get all legislators representing a point
 
 
 get and getList
@@ -98,8 +92,10 @@ The available parameters are:
     * twitter_id
     * official_rss
     * youtube_url
-    
-    
+    * senate_class
+    * birthdate
+
+
 To get the representative that represents NC-4:
 
     >>> print(sunlight.legislators.get(state='NC', district='4'))
@@ -171,6 +167,23 @@ To get all legislators that represent the 27511 zipcode:
     Rep. Brad Miller (D-NC)
 
 
+allForLatLong
+-------------
+
+legislators.allForLatLong retrieves all legislators representing a given point.
+
+This is a shortcut for calling districts.getDistrictFromLatLong and then
+looking up the district representative and state senators.
+
+To get all legislators that represent a location in western PA at 41.92, -80.14:
+    
+    >>> for legislator in sunlight.legislators.allForLatLong(41.92, -80.14):
+    ...     print(legislator)
+    Sen. Bob Casey (D-PA)
+    Sen. Arlen Specter (D-PA)
+    Rep. Kathy Dahlkemper (D-PA)
+
+
 -----------------
 districts methods
 -----------------
@@ -179,7 +192,7 @@ The districts namespace is comprised of several functions:
     * districts.getDistrictsFromZip
     * districts.getZipsFromDistrict
     * districts.getDistrictFromLatLong
-    
+
 
 getDistrictsFromZip
 -------------------
