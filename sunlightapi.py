@@ -5,7 +5,7 @@
 """
 
 __author__ = "James Turk (jturk@sunlightfoundation.com)"
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 __copyright__ = "Copyright (c) 2009 Sunlight Labs"
 __license__ = "BSD"
 
@@ -63,33 +63,6 @@ class Committee(SunlightApiObject):
 class District(SunlightApiObject):
     def __str__(self):
         return '%s-%s' % (self.state, self.number)
-
-class Lobbyist(SunlightApiObject):
-    def __str__(self):
-        return '%s %s' % (self.firstname, self.lastname)
-
-class Issue(SunlightApiObject):
-    def __str__(self):
-        return '%s (%s)' % (self.code, self.specific_issue)
-
-class Filing(SunlightApiObject):
-    def __init__(self, d):
-        self.__dict__ = d
-        self.lobbyists = [Lobbyist(l['lobbyist']) for l in self.lobbyists]
-        self.issues = [Issue(i['issue']) for i in self.issues]
-
-    def __str__(self):
-        return '%s - %s for %s' % (self.filing_id, self.registrant_name,
-                                   self.client_name)
-
-class FilingSearchResult(SunlightApiObject):
-    def __init__(self, d):
-        self.__dict__ = d['lobbyist']
-        self.score = d['score']
-
-    def __str__(self):
-        return '%s %s %s (%s)' % (self.score, self.firstname, self.lastname,
-                                  self.registrant_name)
 
 # namespaces #
 
@@ -170,59 +143,3 @@ class sunlight(object):
             params = {'latitude':latitude, 'longitude':longitude}
             result = sunlight._apicall('districts.getDistrictFromLatLong', params)
             return District(result['districts'][0]['district'])
-
-    class lobbyists(object):
-        @staticmethod
-        def getFiling(id):
-            warnings.warn('lobbyist methods deprecated as of September 2009', DeprecationWarning)
-            result = sunlight._apicall('lobbyists.getFiling', {'id':id})
-            return Filing(result['filing'])
-
-        @staticmethod
-        def getFilingList(**kwargs):
-            warnings.warn('lobbyist methods deprecated as of September 2009', DeprecationWarning)
-            results = sunlight._apicall('lobbyists.getFilingList', kwargs)
-            return [Filing(f['filing']) for f in results['filings']]
-
-        @staticmethod
-        def search(name, year=None, threshold=0.9):
-            warnings.warn('lobbyist methods deprecated as of September 2009', DeprecationWarning)
-            if year == None:
-                import time
-                year = time.strftime('%Y')
-            params = {'name':name, 'year':year, 'threshold': threshold}
-            results = sunlight._apicall('lobbyists.search', params)['results']
-            return [FilingSearchResult(f['result']) for f in results]
-
-    class wordlist(object):
-
-        @staticmethod
-        def _apicall(call, body=None):
-            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
-            base_url = 'http://services.sunlightlabs.com/api/wordlist'
-            url = '%s/%s/?apikey=%s' % (base_url, call, sunlight.apikey)
-            try:
-                if body:
-                    data = urlencode(body)
-                else:
-                    data = None
-                return urlopen(url, data).read()
-            except HTTPError, e:
-                raise SunlightApiError(e.read())
-
-        @staticmethod
-        def get(list_name):
-            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
-            words = sunlight.wordlist._apicall(list_name)
-            return words.split('~')
-
-        @staticmethod
-        def update(list_name, words):
-            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
-            sunlight.wordlist._apicall(list_name, {'words': '\n'.join(words)})
-
-        @staticmethod
-        def filter_stopwords(list_name, text):
-            warnings.warn('wordlist methods deprecated as of September 2009', DeprecationWarning)
-            call = '%s/filter_stopwords' % list_name
-            return sunlight.wordlist._apicall(call, {'text': text})
