@@ -34,6 +34,10 @@ class SunlightApiObject(object):
     def __init__(self, d):
         self.__dict__ = d
 
+    def __repr__(self):
+        return '%s(%r)' % (self.__class__.__name__, self.__dict__)
+
+
 class Legislator(SunlightApiObject):
     def __str__(self):
         if self.nickname:
@@ -107,6 +111,12 @@ class sunlight(object):
         @staticmethod
         def allForZip(zipcode):
             results = sunlight._apicall('legislators.allForZip', {'zip':zipcode})
+            return [Legislator(l['legislator']) for l in results['legislators']]
+
+        @staticmethod
+        def allForLatLong(latitude, longitude):
+            params = {'latitude':latitude, 'longitude':longitude}
+            results = sunlight._apicall('legislators.allForLatLong', params)
             return [Legislator(l['legislator']) for l in results['legislators']]
 
     class committees(object):
