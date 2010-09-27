@@ -5,8 +5,8 @@
 """
 
 __author__ = "James Turk (jturk@sunlightfoundation.com)"
-__version__ = "0.6.0"
-__copyright__ = "Copyright (c) 2009 Sunlight Labs"
+__version__ = "1.0.0"
+__copyright__ = "Copyright (c) 2010 Sunlight Labs"
 __license__ = "BSD"
 
 import sys

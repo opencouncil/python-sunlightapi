@@ -8,7 +8,7 @@ The Sunlight Labs API provides legislator information and district lookups.
 
 (http://services.sunlightlabs.com/api/)
 
-python-sunlightapi is a project of Sunlight Labs (c) 2009.
+python-sunlightapi is a project of Sunlight Labs (c) 2010.
 Written by James Turk <jturk@sunlightfoundation.com>.
 
 All code is under a BSD-style license, see LICENSE for details.
@@ -42,7 +42,7 @@ Import ``sunlight`` from ``sunlightapi``:
     
 And set your API key:
     
-    >>> sunlight.apikey = 'sunlight-api-key'
+    >>> sunlight.apikey = 'your-key-here'
 
 -------------------
 legislators methods
@@ -347,13 +347,3 @@ Showing all of a legislators committees and subcommittees:
        Subcommittee on Securities, Insurance, and Investment
        Subcommittee on Financial Institutions
        Subcommittee on Housing, Transportation, and Community Development
-
-Deprecated Methods
-==================
-
-As of the 0.5 release of this library all lobbyists and wordlist namespace
-methods are deprecated pending removal in a future version.  These methods are
-no longer supported by the Sunlight Labs API.
-
-See http://sunlightlabs.com/blog/2009/sunlight-labs-api-one-year-later/ for
-further details.

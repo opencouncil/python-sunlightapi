@@ -1,3 +1,7 @@
+1.0.0 - September 27 2010
+=========================
+    - just a version bump, last version to work with Python < 2.6
+
 0.6.0 - December 9 2009
 =======================
     - added legislators.allForLatLong
