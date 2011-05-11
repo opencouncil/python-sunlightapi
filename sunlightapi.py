@@ -80,7 +80,7 @@ class sunlight(object):
             raise SunlightApiError('Missing sunlight apikey')
 
         url = 'http://services.sunlightlabs.com/api/%s.json?apikey=%s&%s' % \
-              (func, sunlight.apikey, urlencode(params))
+              (func, sunlight.apikey, urlencode(params, True))
         try:
             response = urlopen(url).read().decode()
             return json.loads(response)['response']
