@@ -1,11 +1,12 @@
 """ Python library for interacting with the Sunlight Labs API.
 
-    The Sunlight Labs API (http://services.sunlightlabs.com/api/) provides basic
-    legislator data, conversion between ids, and zipcode-district lookups.
+    The Sunlight Labs API (http://services.sunlightlabs.com/api/) provides
+    basic legislator data, conversion between ids, and zipcode-district
+    lookups.
 """
 
 __author__ = "James Turk (jturk@sunlightfoundation.com)"
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __copyright__ = "Copyright (c) 2010 Sunlight Labs"
 __license__ = "BSD"
 
@@ -141,12 +142,6 @@ class sunlight(object):
         def getDistrictsFromZip(zipcode):
             results = sunlight._apicall('districts.getDistrictsFromZip', {'zip':zipcode})
             return [District(r['district']) for r in results['districts']]
-
-        @staticmethod
-        def getZipsFromDistrict(state, district):
-            params = {'state':state, 'district':district}
-            results = sunlight._apicall('districts.getZipsFromDistrict', params)
-            return results['zips']
 
         @staticmethod
         def getDistrictFromLatLong(latitude, longitude):
