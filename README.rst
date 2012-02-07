@@ -3,7 +3,7 @@ python-sunlightapi
 ==================
 
 .. warning::
-    This library is deprecated in favor of the more comprehensive `python-sunlight <http://python-sunlight.readthedocs.org>`_.
+    **This library is deprecated** in favor of the more comprehensive `python-sunlight <http://python-sunlight.readthedocs.org>`_.
 
 
 Python library for interacting with the Sunlight Labs API.
