@@ -27,8 +27,9 @@ try:
 except ImportError:
     import simplejson as json
 
-raise DeprecationWarning('python-sunlightapi is deprecated in favor of python-sunlight\n'
-                         'http://python-sunlight.readthedocs.org/')
+import warnings
+warnings.warn('python-openstates is deprecated in favor of python-sunlight\n'
+              'http://python-sunlight.readthedocs.org/', DeprecationWarning)
 
 class SunlightApiError(Exception):
     """ Exception for Sunlight API errors """
